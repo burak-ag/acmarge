@@ -1,29 +1,13 @@
-import { useState, useLayoutEffect, useEffect } from "react";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function Home() {
-  const [isDark, setIsDark] = useState(true);
-
-  useLayoutEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const shouldBeDark = savedTheme !== "light";
-    setIsDark(shouldBeDark);
-  }, []);
-
-  useEffect(() => {
-    const handleThemeChange = (event: CustomEvent) => {
-      setIsDark(event.detail.isDark);
-    };
-
-    window.addEventListener("themeChange", handleThemeChange as EventListener);
-    return () => window.removeEventListener("themeChange", handleThemeChange as EventListener);
-  }, []);
+  const { isDark } = useTheme();
 
   return (
     <main 
       style={{
         backgroundColor: isDark ? "#030712" : "#ffffff",
         color: isDark ? "#f3f4f6" : "#111827",
-        transition: "background-color 0.3s, color 0.3s"
       }}
       className="min-h-screen"
     >
